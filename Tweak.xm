@@ -1,29 +1,20 @@
 #import "StayWithMe.h"
 
 %hook SBFluidSwitcherItemContainer
-// -(void)layoutSubviews {
-// 	SBApplication *foregroundApp = (SBApplication *)[(SpringBoard *)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
-// 	NSString *frontDisplayName = [foregroundApp displayName];
-// 	for(SBFluidSwitcherItemContainerHeaderItem *appHeader in [self headerItems]) {
-// 		if([[appHeader titleText] isEqualToString: frontDisplayName])
-// 			[self setKillable: NO];
-// 	}
-// 	%orig;
-// }
 -(void)scrollViewDidScroll:(id)arg1 {
 	UIScrollView *scrollView = ((UIScrollView *)arg1);
 	SBApplication *foregroundApp = (SBApplication *)[(SpringBoard *)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
-	NSString *frontDisplayName = [foregroundApp displayName];
-	for(SBFluidSwitcherItemContainerHeaderItem *appHeader in [self headerItems]) {
-		BOOL isFirstApp = [[appHeader titleText] isEqualToString: frontDisplayName];
-		if(scrollView.contentOffset.y > 600.0f && isFirstApp) {
-			CGPoint origin = CGPointMake(scrollView.contentOffset.x, 0.0f);
-			[UIView animateWithDuration:0.5 animations:^{
-    			[scrollView setContentOffset:origin animated:NO];
-			}];
+	SBMainSwitcherViewController *mainSwitcher = [%c(SBMainSwitcherViewController) sharedInstance];
+	NSArray *items = [mainSwitcher recentAppLayouts];
+	for(SBAppLayout *app in items) {
+		SBFluidSwitcherItemContainerHeaderView *currentHeaderView = MSHookIvar<SBFluidSwitcherItemContainerHeaderView*>(self, "_iconAndLabelHeader");
+		UILabel *firstLabel = MSHookIvar<UILabel *>(currentHeaderView, "_firstTitleLabel");
+		BOOL isFirstApp = [app containsItemWithBundleIdentifier: [foregroundApp bundleIdentifier]] && firstLabel.text == [foregroundApp displayName];
+		if (scrollView.contentOffset.y > 600.0f && isFirstApp) {
+			[self setKillable:NO];
 		}
-		else if (scrollView.contentOffset.y < 0.0f && isFirstApp) {
-			[[(SpringBoard *)[UIApplication sharedApplication] _accessibilityFrontMostApplication] terminateWithSuccess];
+		else if (scrollView.contentOffset.y < -100.0f && isFirstApp) {
+			[mainSwitcher _deleteAppLayoutsMatchingBundleIdentifier: [foregroundApp bundleIdentifier]];
 		}
 	}
 	%orig;

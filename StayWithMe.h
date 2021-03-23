@@ -1,22 +1,26 @@
 #import <UIKit/UIKit.h>
 
-@interface SBFluidSwitcherTouchPassThroughScrollView : UIScrollView
+@interface SBFluidSwitcherItemContainerHeaderView : UIView {
+    UILabel* _firstTitleLabel;
+}
 @end
 @interface SpringBoard : UIApplication
 - (UIApplication *)_accessibilityFrontMostApplication;
 @end
-@interface UIApplication ()
-- (void)terminateWithSuccess;
-@end
 @interface SBApplication
-- (NSString *)displayName;
+-(NSString *)bundleIdentifier;
+-(NSString *)displayName;
 @end
-@interface SBFluidSwitcherItemContainerHeaderItem
-@property(nonatomic, copy) NSString *titleText;
+@interface SBAppLayout: NSObject
+-(BOOL)containsItemWithBundleIdentifier:(id)arg1;
 @end
-@interface SBFluidSwitcherItemContainer : UIView
-- (NSArray *)headerItems;
-- (BOOL)isDragging;
-- (void)layoutSubviews;
+@interface SBFluidSwitcherItemContainer : UIView {
+    SBFluidSwitcherItemContainerHeaderView* _iconAndLabelHeader;
+}
 - (void)setKillable:(BOOL)arg1;
+@end
+@interface SBMainSwitcherViewController: UIViewController
++ (id)sharedInstance;
+-(id)recentAppLayouts;
+-(void)_deleteAppLayoutsMatchingBundleIdentifier:(id)arg1;
 @end
