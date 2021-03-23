@@ -1,0 +1,9 @@
+Package: com.popsicletreehouse.staywithme
+Name: StayWithMe
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: PopsicleTreehouse
+Author: PopsicleTreehouse
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000)
