@@ -2,8 +2,8 @@ Package: com.popsicletreehouse.staywithme
 Name: StayWithMe
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Stop your most recently opened app from clearing in the app switcher.
 Maintainer: PopsicleTreehouse
 Author: PopsicleTreehouse
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000)
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, com.spark.libsparkapplist

@@ -1,3 +1,4 @@
+#import <SparkAppList.h>
 #import <UIKit/UIKit.h>
 
 @interface SBDisplayItem: NSObject
@@ -24,6 +25,7 @@
 @interface SBFluidSwitcherItemContainer : UIView {
     SBFluidSwitcherItemContainerHeaderView* _iconAndLabelHeader;
 }
+-(void)clearFromSwitcher:(NSString *)bundleIdentifier;
 @end
 @interface SBMainSwitcherViewController : UIViewController
 +(id)sharedInstance;
@@ -31,3 +33,5 @@
 -(void)_deleteAppLayout:(id)arg1 forReason:(long long)arg2;
 -(id)recentAppLayouts;
 @end
+
+BOOL isEnabled;
