@@ -1,3 +1,5 @@
+export PREFIX=$(THEOS)/toolchain/Xcode.xctoolchain/usr/bin/
+
 ARCHS = arm64 arm64e
 
 include $(THEOS)/makefiles/common.mk
